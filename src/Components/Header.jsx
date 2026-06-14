@@ -5,7 +5,11 @@ import mob_logo_white from "../assets/images/mobile-logo-white.png";
 import cart_icon from "../assets/images/icons/cart-icon.png";
 import search from "../assets/images/icons/search-icon.png";
 
-export default function Header() {
+export default function Header({cart}) {
+  let totalQuantity=0;
+  cart.forEach((cart_item)=>{
+    totalQuantity+=cart_item.quantity;
+  })
   return (
     <div className="header">
       <div className="left-section">
@@ -30,7 +34,7 @@ export default function Header() {
 
         <Link className="cart-link header-link" to="/checkout">
           <img className="cart-icon" src={cart_icon} />
-          <div className="cart-quantity">3</div>
+          <div className="cart-quantity">{totalQuantity}</div>
           <div className="cart-text">Cart</div>
         </Link>
       </div>

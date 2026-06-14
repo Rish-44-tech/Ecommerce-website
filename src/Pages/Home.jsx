@@ -1,20 +1,25 @@
 import axios from "axios";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import "./Home.css";
 import checkmark from "../assets/images/icons/checkmark.png";
 
 export default function Home() {
-  const[products,setProducts]=useState([]);
-  useEffect(()=>{axios.get("http://localhost:3000/api/products")
-  .then((response)=>{
-    setProducts(response.data);
-  })}
-,[]);
+  const [products, setProducts] = useState([]);
+  const [cart,setCart]=useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((response) => {
+      setProducts(response.data);
+    });
+
+    axios.get("http://localhost:3000/api/cart-items").then((response) =>{
+      setCart(response.data);
+    });
+  }, []);
 
   const productElem = products.map((product) => {
-
-  const price="$"+(product.priceCents/100).toFixed(2);
+    const price = "$" + (product.priceCents / 100).toFixed(2);
 
     return (
       <div className="product-container">
@@ -27,9 +32,11 @@ export default function Home() {
         <div className="product-rating-container">
           <img
             className="product-rating-stars"
-            src={"images/ratings/rating-"+product.rating.stars*10+".png"}
+            src={"images/ratings/rating-" + product.rating.stars * 10 + ".png"}
           />
-          <div className="product-rating-count link-primary">{product.rating.count}</div>
+          <div className="product-rating-count link-primary">
+            {product.rating.count}
+          </div>
         </div>
 
         <div className="product-price">{price}</div>
@@ -63,15 +70,12 @@ export default function Home() {
     );
   });
 
-
   return (
     <>
       <link rel="icon" href="images/home-favicon.png" />
-      <Header />
+      <Header cart={cart}/>
       <div className="home-page">
-        <div className="products-grid">
-          {productElem}
-        </div>
+        <div className="products-grid">{productElem}</div>
       </div>
     </>
   );
