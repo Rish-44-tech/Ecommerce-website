@@ -6,7 +6,6 @@ import checkmark from "../assets/images/icons/checkmark.png";
 
 export default function Home() {
   const[products,setProducts]=useState([]);
-  alert("hi");
   useEffect(()=>{axios.get("http://localhost:3000/api/products")
   .then((response)=>{
     setProducts(response.data);
