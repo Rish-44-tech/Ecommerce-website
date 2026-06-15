@@ -3,9 +3,9 @@ import { Routes, Route } from "react-router";
 import { useState,useEffect } from "react";
 import Home from "./Pages/Home/Home.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
-import Orders from "./Pages/Orders.jsx";
-import Tracking from "./Pages/Tracking.jsx";
-import NotFound from "./Pages/NotFound.jsx";
+import Orders from "./Pages/Orders/Orders.jsx";
+import Tracking from "./Pages/Tracking/Tracking.jsx";
+import NotFound from "./Pages/Not Found/NotFound.jsx";
 import "./App.css";
 
 function App() {

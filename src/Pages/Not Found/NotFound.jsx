@@ -1,4 +1,4 @@
-import Header from "../Components/Header.jsx";
+import Header from "../../Components/Header.jsx";
 import "./NotFound.css";
 
 export default function NotFound({cart}) {
