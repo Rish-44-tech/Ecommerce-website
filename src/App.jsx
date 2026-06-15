@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Routes, Route } from "react-router";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Home from "./Pages/Home/Home.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import Orders from "./Pages/Orders/Orders.jsx";
@@ -9,19 +9,22 @@ import NotFound from "./Pages/Not Found/NotFound.jsx";
 import "./App.css";
 
 function App() {
-  const[cart,setCart]=useState([]);
-  useEffect(()=>{
-      axios.get("/api/cart-items?expand=product").then((response) =>{
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    const getCartData = async () => {
+      const response = await axios.get("/api/cart-items?expand=product");
       setCart(response.data);
-    });
-  },[]);
+    };
+    getCartData();
+  }, []);
+  
   return (
     <Routes>
-      <Route path="/" element={<Home cart={cart}/>}></Route>
-      <Route path="/checkout" element={<Checkout cart={cart}/>}></Route>
-      <Route path="/orders" element={<Orders cart={cart}/>}></Route>
-      <Route path="/tracking" element={<Tracking cart={cart}/>}></Route>
-      <Route path="*" element={<NotFound cart={cart}/>}></Route>
+      <Route path="/" element={<Home cart={cart} />}></Route>
+      <Route path="/checkout" element={<Checkout cart={cart} />}></Route>
+      <Route path="/orders" element={<Orders cart={cart} />}></Route>
+      <Route path="/tracking" element={<Tracking cart={cart} />}></Route>
+      <Route path="*" element={<NotFound cart={cart} />}></Route>
     </Routes>
   );
 }
