@@ -47,10 +47,12 @@ export default function Orders({ cart }) {
                   </div>
                   <div className="order-details-grid">
                     {order.products.map((orderProduct) => {
-                      console.log(orderProduct);
                       return (
                         <Fragment key={orderProduct.id}>
-                          <div className="product-image-container" key={orderProduct.productId}>
+                          <div
+                            className="product-image-container"
+                            key={orderProduct.productId}
+                          >
                             <img src={orderProduct.product.image} />
                           </div>
 
@@ -59,9 +61,14 @@ export default function Orders({ cart }) {
                               {orderProduct.product.name}
                             </div>
                             <div className="product-delivery-date">
-                              Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format("MMMM d")}
+                              Arriving on:{" "}
+                              {dayjs(
+                                orderProduct.estimatedDeliveryTimeMs,
+                              ).format("MMMM d")}
                             </div>
-                            <div className="product-quantity">Quantity: {orderProduct.quantity}</div>
+                            <div className="product-quantity">
+                              Quantity: {orderProduct.quantity}
+                            </div>
                             <button className="buy-again-button button-primary">
                               <img
                                 className="buy-again-icon"
@@ -87,7 +94,6 @@ export default function Orders({ cart }) {
                 </div>
               );
             })}
-
         </div>
       </div>
     </>
