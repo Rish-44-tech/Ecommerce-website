@@ -4,19 +4,14 @@ import Header from "../Components/Header";
 import "./Home.css";
 import checkmark from "../assets/images/icons/checkmark.png";
 
-export default function Home() {
+export default function Home({cart}) {
+  console.log("po");
   const [products, setProducts] = useState([]);
-  const [cart,setCart]=useState([]);
-
   useEffect(() => {
     axios.get("/api/products").then((response) => {
       setProducts(response.data);
     });
-
-    axios.get("/api/cart-items").then((response) =>{
-      setCart(response.data);
-    });
-  }, []);
+  },[]);
 
   const productElem = products.map((product) => {
     const price = "$" + (product.priceCents / 100).toFixed(2);
@@ -73,7 +68,7 @@ export default function Home() {
   return (
     <>
       <link rel="icon" href="images/home-favicon.png" />
-      <Header cart={cart}/>
+      <Header cart={cart} />
       <div className="home-page">
         <div className="products-grid">{productElem}</div>
       </div>

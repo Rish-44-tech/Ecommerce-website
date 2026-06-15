@@ -7,8 +7,8 @@ import search from "../assets/images/icons/search-icon.png";
 
 export default function Header({cart}) {
   let totalQuantity=0;
-  cart.forEach((cart_item)=>{
-    totalQuantity+=cart_item.quantity;
+  Object.entries(cart).forEach((cart_item)=>{
+    totalQuantity+=cart_item[1].quantity;
   })
   return (
     <div className="header">
