@@ -2,10 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Header from "../Components/Header";
 import "./Home.css";
+import formatPrice from "../utils/money";
 import checkmark from "../assets/images/icons/checkmark.png";
 
 export default function Home({cart}) {
-  console.log("po");
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios.get("/api/products").then((response) => {
@@ -14,7 +14,7 @@ export default function Home({cart}) {
   },[]);
 
   const productElem = products.map((product) => {
-    const price = "$" + (product.priceCents / 100).toFixed(2);
+    const price = formatPrice(product.priceCents);
 
     return (
       <div className="product-container">
