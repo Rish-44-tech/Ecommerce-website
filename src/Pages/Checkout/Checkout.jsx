@@ -71,9 +71,7 @@ export default function Checkout({ cart }) {
                     />
                     <div>
                       <div className="delivery-option-date">
-                        {dayjs(deliveryOption.estimatedDeliveryTimeMs).format(
-                          "dddd, MMMM D",
-                        )}
+                        {dayjs(deliveryOption.estimatedDeliveryTimeMs).format("dddd, MMMM d")}
                       </div>
                       <div className="delivery-option-price">
                         {(deliveryOption.priceCents === 0 && "FREE ") ||

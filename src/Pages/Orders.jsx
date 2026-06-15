@@ -1,19 +1,144 @@
+import axios from "axios";
+import dayjs from "dayjs";
+import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import Header from "../Components/Header";
 import "./Orders.css";
+import formatPrice from "../utils/money";
 import buy_again_icon from "../assets/images/icons/buy-again.png";
 
-export default function Orders({cart}) {
+export default function Orders({ cart }) {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    axios.get("/api/orders?expand=products").then((response) => {
+      setOrders(response.data);
+    });
+  });
   return (
     <>
       <title>Orders</title>
       <link rel="icon" href="images/orders-favicon.png" />
-      <Header cart={cart}/>
+      <Header cart={cart} />
       <div className="orders-page">
         <div className="page-title">Your Orders</div>
 
         <div className="orders-grid">
-          <div className="order-container">
+          {orders.length > 0 &&
+            orders.map((order) => {
+              return (
+                <div className="order-container" key={order.id}>
+                  <div className="order-header">
+                    <div className="order-header-left-section">
+                      <div className="order-date">
+                        <div className="order-header-label">Order Placed:</div>
+                        <div>{dayjs(order.orderTimeMs).format("MMMM d")}</div>
+                      </div>
+                      <div className="order-total">
+                        <div className="order-header-label">Total:</div>
+                        <div>{formatPrice(order.totalCostCents)}</div>
+                      </div>
+                    </div>
+
+                    <div className="order-header-right-section">
+                      <div className="order-header-label">Order ID:</div>
+                      <div>{order.id}</div>
+                    </div>
+                  </div>
+                  <div className="order-details-grid">
+                    {order.products.map((orderProduct) => {
+                      console.log(orderProduct);
+                      return (
+                        <>
+                          <div className="product-image-container" key={orderProduct.productId}>
+                            <img src={orderProduct.product.image} />
+                          </div>
+
+                          <div className="product-details">
+                            <div className="product-name">
+                              {orderProduct.product.name}
+                            </div>
+                            <div className="product-delivery-date">
+                              Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format("MMMM d")}
+                            </div>
+                            <div className="product-quantity">Quantity: {orderProduct.quantity}</div>
+                            <button className="buy-again-button button-primary">
+                              <img
+                                className="buy-again-icon"
+                                src={buy_again_icon}
+                              />
+                              <span className="buy-again-message">
+                                Add to Cart
+                              </span>
+                            </button>
+                          </div>
+
+                          <div className="product-actions">
+                            <Link to="/tracking">
+                              <button className="track-package-button button-secondary">
+                                Track package
+                              </button>
+                            </Link>
+                          </div>
+                        </>
+                      );
+                    })}
+                    {/* <div className="product-image-container">
+                      <img src="images/products/athletic-cotton-socks-6-pairs.jpg" />
+                    </div>
+
+                    <div className="product-details">
+                      <div className="product-name">
+                        Black and Gray Athletic Cotton Socks - 6 Pairs
+                      </div>
+                      <div className="product-delivery-date">
+                        Arriving on: August 15
+                      </div>
+                      <div className="product-quantity">Quantity: 1</div>
+                      <button className="buy-again-button button-primary">
+                        <img className="buy-again-icon" src={buy_again_icon} />
+                        <span className="buy-again-message">Add to Cart</span>
+                      </button>
+                    </div>
+
+                    <div className="product-actions">
+                      <Link to="/tracking">
+                        <button className="track-package-button button-secondary">
+                          Track package
+                        </button>
+                      </Link>
+                    </div>
+
+                    <div className="product-image-container">
+                      <img src="images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg" />
+                    </div>
+
+                    <div className="product-details">
+                      <div className="product-name">
+                        Adults Plain Cotton T-Shirt - 2 Pack
+                      </div>
+                      <div className="product-delivery-date">
+                        Arriving on: August 19
+                      </div>
+                      <div className="product-quantity">Quantity: 2</div>
+                      <button className="buy-again-button button-primary">
+                        <img className="buy-again-icon" src={buy_again_icon} />
+                        <span className="buy-again-message">Add to Cart</span>
+                      </button>
+                    </div>
+
+                    <div className="product-actions">
+                      <Link to="/tracking">
+                        <button className="track-package-button button-secondary">
+                          Track package
+                        </button>
+                      </Link>
+                    </div> */}
+                  </div>
+                </div>
+              );
+            })}
+          {/* <div className="order-container">
             <div className="order-header">
               <div className="order-header-left-section">
                 <div className="order-date">
@@ -46,10 +171,7 @@ export default function Orders({cart}) {
                 </div>
                 <div className="product-quantity">Quantity: 1</div>
                 <button className="buy-again-button button-primary">
-                  <img
-                    className="buy-again-icon"
-                    src={buy_again_icon}
-                  />
+                  <img className="buy-again-icon" src={buy_again_icon} />
                   <span className="buy-again-message">Add to Cart</span>
                 </button>
               </div>
@@ -75,10 +197,7 @@ export default function Orders({cart}) {
                 </div>
                 <div className="product-quantity">Quantity: 2</div>
                 <button className="buy-again-button button-primary">
-                  <img
-                    className="buy-again-icon"
-                    src={buy_again_icon}
-                  />
+                  <img className="buy-again-icon" src={buy_again_icon} />
                   <span className="buy-again-message">Add to Cart</span>
                 </button>
               </div>
@@ -124,10 +243,7 @@ export default function Orders({cart}) {
                 </div>
                 <div className="product-quantity">Quantity: 2</div>
                 <button className="buy-again-button button-primary">
-                  <img
-                    className="buy-again-icon"
-                    src={buy_again_icon}
-                  />
+                  <img className="buy-again-icon" src={buy_again_icon} />
                   <span className="buy-again-message">Add to Cart</span>
                 </button>
               </div>
@@ -140,7 +256,7 @@ export default function Orders({cart}) {
                 </Link>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
