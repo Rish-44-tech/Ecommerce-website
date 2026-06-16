@@ -83,7 +83,7 @@ export default function Orders({ cart }) {
                           </div>
 
                           <div className="product-actions">
-                            <Link to="/tracking">
+                            <Link to={`/tracking/${order.id}/${orderProduct.productId}`}>
                               <button className="track-package-button button-secondary">
                                 Track package
                               </button>
