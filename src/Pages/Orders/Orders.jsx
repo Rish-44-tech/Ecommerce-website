@@ -7,7 +7,7 @@ import "./Orders.css";
 import formatPrice from "../../utils/money";
 import buy_again_icon from "../../assets/images/icons/buy-again.png";
 
-export default function Orders({ cart }) {
+export default function Orders({ cart,loadCart }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -49,6 +49,13 @@ export default function Orders({ cart }) {
                   </div>
                   <div className="order-details-grid">
                     {order.products.map((orderProduct) => {
+                      async function addToCart() {
+                        await axios.post("/api/cart-items", {
+                          productId: orderProduct.productId,
+                          quantity: orderProduct.quantity
+                        });
+                        await loadCart();
+                      }
                       return (
                         <Fragment key={orderProduct.id}>
                           <div
@@ -76,14 +83,16 @@ export default function Orders({ cart }) {
                                 className="buy-again-icon"
                                 src={buy_again_icon}
                               />
-                              <span className="buy-again-message">
+                              <span className="buy-again-message" onClick={addToCart}>
                                 Add to Cart
                               </span>
                             </button>
                           </div>
 
                           <div className="product-actions">
-                            <Link to={`/tracking/${order.id}/${orderProduct.productId}`}>
+                            <Link
+                              to={`/tracking/${order.id}/${orderProduct.productId}`}
+                            >
                               <button className="track-package-button button-secondary">
                                 Track package
                               </button>
