@@ -57,7 +57,7 @@ export default function Tracking({ cart }) {
             </Link>
 
             <div className="delivery-date">
-              {message + dayjs(product.estimatedDeliveryTimeMs).format("dddd, MMMM d")}
+              {message + dayjs(product.estimatedDeliveryTimeMs).format("dddd, MMMM D")}
             </div>
 
             <div className="product-info">{product.product.name}</div>

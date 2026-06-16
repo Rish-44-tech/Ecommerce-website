@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import formatPrice from "../../utils/money";
 import DeliveryOptions from "./DeliveryOptions";
 
-export default function OrderSummary({cart,deliveryOptions}) {
+export default function OrderSummary({cart,deliveryOptions,loadCart,loadPaymentSummary}) {
 
   return (
     <div className="order-summary">
@@ -16,7 +16,7 @@ export default function OrderSummary({cart,deliveryOptions}) {
               <div className="delivery-date">
                 Delivery date:{" "}
                 {dayjs(delOption.estimatedDeliveryTimeMs).format(
-                  "dddd, MMMM d",
+                  "dddd, MMMM D",
                 )}
               </div>
 
@@ -43,7 +43,7 @@ export default function OrderSummary({cart,deliveryOptions}) {
                     </span>
                   </div>
                 </div>
-                <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem}/>
+                <DeliveryOptions deliveryOptions={deliveryOptions} cartItem={cartItem} loadCart={loadCart} loadPaymentSummary={loadPaymentSummary}/>
               </div>
             </div>
           );
