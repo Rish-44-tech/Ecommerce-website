@@ -207,3 +207,8 @@
   margin-top: 20px;
   margin-bottom: 19px;
 }
+.quantity-update-input{
+  width: 35px;
+  margin-left: 10px;
+  border: 1px solid black;
+}

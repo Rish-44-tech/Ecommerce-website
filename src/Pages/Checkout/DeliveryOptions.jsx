@@ -2,7 +2,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import formatPrice from "../../utils/money";
 
-export default function DeliveryOptions({ deliveryOptions, cartItem,loadCart,loadPaymentSummary }) {
+export default function DeliveryOptions({ deliveryOptions, cartItem,loadCart}) {
   return (
     <div className="delivery-options">
       <div className="delivery-options-title">Choose a delivery option:</div>
@@ -12,7 +12,6 @@ export default function DeliveryOptions({ deliveryOptions, cartItem,loadCart,loa
             deliveryOptionId:deliveryOption.id
           });
           await loadCart();
-          await loadPaymentSummary();
         }
         return (
           <div className="delivery-option" key={deliveryOption.id} onClick={changeDeliveryOption}>

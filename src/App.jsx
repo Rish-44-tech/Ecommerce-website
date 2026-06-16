@@ -9,6 +9,7 @@ import NotFound from "./Pages/Not Found/NotFound.jsx";
 import "./App.css";
 
 function App() {
+  window.axios=axios;
   const [cart, setCart] = useState([]);
   const loadCart = async () => {
     const response = await axios.get("/api/cart-items?expand=product");

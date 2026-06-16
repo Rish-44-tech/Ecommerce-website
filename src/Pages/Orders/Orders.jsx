@@ -49,10 +49,10 @@ export default function Orders({ cart,loadCart }) {
                   </div>
                   <div className="order-details-grid">
                     {order.products.map((orderProduct) => {
-                      async function addToCart() {
+                      async function addsToCart() {
                         await axios.post("/api/cart-items", {
                           productId: orderProduct.productId,
-                          quantity: orderProduct.quantity
+                          quantity: 1
                         });
                         await loadCart();
                       }
@@ -83,7 +83,7 @@ export default function Orders({ cart,loadCart }) {
                                 className="buy-again-icon"
                                 src={buy_again_icon}
                               />
-                              <span className="buy-again-message" onClick={addToCart}>
+                              <span className="buy-again-message" onClick={addsToCart}>
                                 Add to Cart
                               </span>
                             </button>

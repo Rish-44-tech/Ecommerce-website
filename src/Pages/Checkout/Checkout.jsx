@@ -10,11 +10,6 @@ export default function Checkout({ cart, loadCart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [paymentSummary, setpaymentSummary] = useState(null);
 
-  const loadPaymentSummary = async () => {
-    const response = await axios.get("/api/payment-summary");
-    setpaymentSummary(response.data);
-  };
-
   useEffect(() => {
     const getDelOptions = async () => {
       const response = await axios.get(
@@ -24,8 +19,15 @@ export default function Checkout({ cart, loadCart }) {
     };
 
     getDelOptions();
-    loadPaymentSummary();
   }, []);
+
+  useEffect(() => {
+    const loadPaymentSummary = async () => {
+      const response = await axios.get("/api/payment-summary");
+      setpaymentSummary(response.data);
+    };
+    loadPaymentSummary();
+  }, [cart]);
 
   return (
     <>
@@ -40,9 +42,8 @@ export default function Checkout({ cart, loadCart }) {
             cart={cart}
             deliveryOptions={deliveryOptions}
             loadCart={loadCart}
-            loadPaymentSummary={loadPaymentSummary}
           />
-          <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart} loadPaymentSummary={loadPaymentSummary} />
+          <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart} />
         </div>
       </div>
     </>
