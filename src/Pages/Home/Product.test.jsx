@@ -1,13 +1,18 @@
 import { screen, render } from "@testing-library/react";
-import { it, expect, describe, vi } from "vitest";
-import React from "react";
+import { it, expect, describe, vi, beforeEach } from "vitest";
+import { userEvent } from "@testing-library/user-event";
+import axios from "axios";
 import Product from "./Product.jsx";
 
-describe("Product", () => {
-  it("displays product details correctly", () => {
-    const loadCart = vi.fn();
+vi.mock("axios");
 
-    const product = {
+describe("Product", () => {
+  let loadCart;
+  let product;
+
+  beforeEach(() => {      //we also have afterEach, beforeAll, afterAll
+    loadCart = vi.fn();
+    product = {
       id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
       image: "images/products/athletic-cotton-socks-6-pairs.jpg",
       name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
@@ -18,11 +23,42 @@ describe("Product", () => {
       priceCents: 1090,
       keywords: ["socks", "sports", "apparel"],
     };
+  });
 
+  it("displays product details correctly", () => {
     render(<Product product={product} loadCart={loadCart} />);
 
     expect(
-      screen.getByText("Black and Gray Athletic Cotton Socks - 6 Pairs")
+      screen.getByText("Black and Gray Athletic Cotton Socks - 6 Pairs"),
     ).toBeInTheDocument();
+
+    expect(screen.getByText("$10.90")).toBeInTheDocument();
+
+    expect(screen.getByTestId("product-image")).toHaveAttribute(
+      "src",
+      "images/products/athletic-cotton-socks-6-pairs.jpg",
+    );
+
+    expect(screen.getByTestId("product-rating-stars")).toHaveAttribute(
+      "src",
+      "images/ratings/rating-45.png",
+    );
+
+    expect(screen.getByText(87)).toBeInTheDocument();
+  });
+
+  it("adds a product to cart", async () => {
+    render(<Product product={product} loadCart={loadCart} />);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByTestId("add-to-cart-button"));
+
+    expect(axios.post).toHaveBeenCalledWith("/api/cart-items", {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 1,
+    });
+
+    expect(loadCart).toHaveBeenCalled();
   });
 });
